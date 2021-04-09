@@ -1,0 +1,22 @@
+ Gitignore et dotenv:
+ Mettre info sensibles dans fichier dotenv et mettre ce fichier dans gitignore
+ 
+ models:
+ Création de Schémas avec la fonction schema du package mongoose
+
+ Routes:
+ Création des différentes routes. Par ex, les routes signup et login du fichier user
+
+ controllers:
+ Création de la logique des routes
+
+
+Sécurité:
+const rateLimit = require('express-rate-limit');+
+const cookieParser = require('cookie-parser');
+morgan
+mongoSanitize
+
+//Frontend npm start
+//Backend nodemon server
+
