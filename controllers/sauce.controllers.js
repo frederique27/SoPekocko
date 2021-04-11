@@ -13,6 +13,7 @@ exports.getOneSauce = (req, res, next) => {
     .catch(error => res.status(404).json({ error }));
 };
 
+
 //routes POST
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
@@ -26,38 +27,6 @@ exports.createSauce = (req, res, next) => {
       .then(() => res.status(201).json({ message: 'Sauce enregistrée !' }))
       .catch(error => res.status(400).json({ error }));
 };
-// exports.likeSauce = (req, res, next) => {   
-// }
-
-//routes PUT
-exports.modifySauce = (req, res, next) => {
-  const sauceObject = req.file ? // ? = remplace if/else. si req.file existe {} sinon : {}
-    {
-      ...JSON.parse(req.body.sauce),
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
-  Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Sauce modifiée !'}))
-    .catch(error => res.status(400).json({ error }));
-};
-
-//routes DELETE
-exports.deleteSauce = (req, res, next) => {
-	Sauce.findOne({ _id: req.params.id })
-	  .then(sauce => {
-		const filename = sauce.imageUrl.split('/images/')[1]; //récupère 2e élément du tableau (nom du fichier)
-		fs.unlink(`images/${filename}`, () => { //unlink = supprime un fichier
-		  Sauce.deleteOne({ _id: req.params.id }) //ensuite supprime de la base de donnée
-			.then(() => res.status(200).json({ message: 'Sauce supprimé !' }))
-			.catch(error => res.status(400).json({ error }));
-		});
-	  })
-	  .catch(error => res.status(500).json({ error }));
-  };
-
-
-
-// Like dislike sauce
 exports.likeSauce = (req, res, next) => {
   switch (req.body.like) {
     case 0:                                                   //cas: req.body.like = 0
@@ -105,6 +74,36 @@ exports.likeSauce = (req, res, next) => {
       console.error("bad request");
   }
 };
+
+
+//routes PUT
+exports.modifySauce = (req, res, next) => {
+  const sauceObject = req.file ? // ? = remplace if/else. si req.file existe {} sinon : {}
+    {
+      ...JSON.parse(req.body.sauce),
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+  Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Sauce modifiée !'}))
+    .catch(error => res.status(400).json({ error }));
+};
+
+
+//routes DELETE
+exports.deleteSauce = (req, res, next) => {
+	Sauce.findOne({ _id: req.params.id })
+	  .then(sauce => {
+		const filename = sauce.imageUrl.split('/images/')[1]; //récupère 2e élément du tableau (nom du fichier)
+		fs.unlink(`images/${filename}`, () => { //unlink = supprime un fichier
+		  Sauce.deleteOne({ _id: req.params.id }) //ensuite supprime de la base de donnée
+			.then(() => res.status(200).json({ message: 'Sauce supprimé !' }))
+			.catch(error => res.status(400).json({ error }));
+		});
+	  })
+	  .catch(error => res.status(500).json({ error }));
+  };
+
+
 
 
 
