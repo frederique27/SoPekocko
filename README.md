@@ -12,5 +12,5 @@ Partie Backend
 Cloner ce repository pour récupérer en local la partie Backend de l'application.
 Créer un fichier ".env" et y implémenter les lignes de code qui vous ont été envoyées séparément
 Dans le terminal du dossier backend taper:    
--"npm install",
--"nodemon server"
+- "npm install",
+- "nodemon server"
